@@ -1,4 +1,4 @@
-import { IControl } from '../../../types';
+import { IControl } from '../../types/types';
 import SideBarNode from './SideBarNode';
 
 const controls: IControl[] = [

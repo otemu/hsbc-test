@@ -1,6 +1,6 @@
 import { DragEvent } from 'react';
 import styled from 'styled-components';
-import { IControl } from '../../../types';
+import { IControl } from '../../types/types';
 import {
   CustomNodeStyles,
   DiamondStyle,

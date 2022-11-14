@@ -1,5 +1,5 @@
 import { Handle, Position } from 'reactflow';
-import { TNodeData } from '../../../types';
+import { TNodeData } from '../../types/types';
 import { CustomNodeStyles, DiamondStyle } from './CustomNodeStyles';
 
 export const DecisionNode = (props: TNodeData) => {

@@ -5,19 +5,9 @@ import {
   useCallback,
   DragEvent,
   useMemo,
-  MouseEvent,
   ChangeEvent,
   FormEvent,
 } from 'react';
-import {
-  Form,
-  Button,
-  InputGroup,
-  Container,
-  Col,
-  Row,
-  Alert,
-} from 'react-bootstrap';
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -32,17 +22,9 @@ import styled from 'styled-components';
 import FlowChartForm from '../../../components/FlowChart/components/FlowChartForm/FlowChartForm';
 import Navigation from '../../../components/FlowChart/components/Navigation/Navigation';
 import SideBar from '../../../components/FlowChart/components/SideBar/SideBar';
+import { FLOW_CHART_STORAGE_NAME } from '../../../components/FlowChart/utils/constants';
 import { getCustomNodeTypes } from '../../../components/FlowChart/utils/getCustomNodeTypes';
 import { getTimeStamp } from '../../../components/FlowChart/utils/getTimeStamp';
-
-const initialNodes = [
-  {
-    id: 'node-1',
-    type: 'decisionNode',
-    position: { x: 0, y: 0 },
-    data: { label: 'something', formLabel: 'Decision' },
-  },
-];
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -54,7 +36,7 @@ const UploadAreaStyle = styled.div`
 
 const FlowChart = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance>(null);
@@ -165,18 +147,16 @@ const FlowChart = () => {
 
       if (reactFlowInstance) {
         const flow = reactFlowInstance.toObject();
-        const storageName = 'flow-chart';
+        const storageName = FLOW_CHART_STORAGE_NAME;
 
         const hasStorage = localStorage.getItem(storageName);
         const flowChartsData = hasStorage ? JSON.parse(hasStorage) : [];
-        flowChartsData.push({ [`timestamp${getTimeStamp()}`]: flow });
+        flowChartsData.push({ id: getTimeStamp(), flow });
         localStorage.setItem(storageName, JSON.stringify(flowChartsData));
       }
     },
     [reactFlowInstance]
   );
-
-  console.log({ nodes });
 
   return (
     <>
@@ -203,7 +183,7 @@ const FlowChart = () => {
           </div>
         </ReactFlowProvider>
       </div>
-      {nodes && (
+      {nodes.length > 0 && (
         <FlowChartForm
           nodes={nodes}
           handleNodeChange={handleNodeChange}

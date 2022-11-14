@@ -1,4 +1,4 @@
-import { TNodeData } from '../../../types';
+import { TNodeData } from '../../types/types';
 import { CustomNodeStyles } from './CustomNodeStyles';
 
 export const CommentNode = (props: TNodeData) => {

@@ -1,5 +1,5 @@
 import { Handle, Position } from 'reactflow';
-import { TNodeData } from '../../../types';
+import { TNodeData } from '../../types/types';
 import { CustomNodeStyles } from './CustomNodeStyles';
 
 export const EndNode = (props: TNodeData) => {

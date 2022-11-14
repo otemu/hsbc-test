@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { IStyledNode } from "../../../types";
+import styled from 'styled-components';
+import { IStyledNode } from '../../types/types';
 
 export const CustomNodeStyles = styled.div<IStyledNode>`
   display: flex;
@@ -22,7 +22,8 @@ export const CustomNodeStyles = styled.div<IStyledNode>`
   `}
 
   ${({ isDiamond }) =>
-    isDiamond &&`
+    isDiamond &&
+    `
     position: relative;
     width: 80px;
     height: 80px;
@@ -37,7 +38,8 @@ export const CustomNodeStyles = styled.div<IStyledNode>`
 
 
   ${({ isFolded, borderColor }) =>
-    isFolded &&`
+    isFolded &&
+    `
     position: relative; 
 
     &:after {
@@ -63,4 +65,4 @@ export const DiamondStyle = styled.div`
   border: 2px solid blue;
   transform: rotate(45deg);
   z-index: -1;
-`
+`;
