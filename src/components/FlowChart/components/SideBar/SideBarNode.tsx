@@ -1,6 +1,7 @@
 import { DragEvent } from 'react';
 import styled from 'styled-components';
 import { IControl } from '../../types/types';
+import { FLOW_DATA_TRANSFER_NAME } from '../../utils/constants';
 import {
   CustomNodeStyles,
   DiamondStyle,
@@ -18,7 +19,7 @@ const SideBarNode: React.FC<IControl> = ({ nodeType, label, styledNode }) => {
   const onDragStart =
     (nodeType: string, label: string) => (event: DragEvent<HTMLDivElement>) => {
       event.dataTransfer.setData(
-        'application/reactflow',
+        FLOW_DATA_TRANSFER_NAME,
         JSON.stringify({ type: nodeType, label })
       );
       event.dataTransfer.effectAllowed = 'move';

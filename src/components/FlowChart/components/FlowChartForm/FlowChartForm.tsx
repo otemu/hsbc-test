@@ -1,8 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
-//TODO
-
 import {
   Form,
   Container,
@@ -13,8 +8,17 @@ import {
   Button,
 } from 'react-bootstrap';
 import { Node } from 'reactflow';
+import { TChangeEvent, TDragEvent, TFormEvent } from '../../types/types';
 
-const FlowChartForm: React.FC = ({
+interface Props {
+  nodes: Node[];
+  handleLabelChange: TChangeEvent;
+  handleNodeChange: TChangeEvent;
+  dropHandler: TDragEvent;
+  saveGraph: TFormEvent;
+}
+
+const FlowChartForm: React.FC<Props> = ({
   nodes,
   handleLabelChange,
   handleNodeChange,
@@ -49,23 +53,13 @@ const FlowChartForm: React.FC = ({
                 </InputGroup>
               )}
               {isUploadField && (
-                <InputGroup className="mb-3">
-                  <div>
-                    <Form.Control
-                      name="upload"
-                      type="file"
-                      onChange={handleLabelChange(id)}
-                      className="rounded-0 rounded-top"
-                    />
-                    <Alert
-                      onDrop={dropHandler(id)}
-                      onDragOver={(e) => e.preventDefault()}
-                      className="rounded-0 rounded-bottom"
-                    >
-                      Upload or Drag your files here
-                    </Alert>
-                  </div>
-                </InputGroup>
+                <Alert
+                  onDrop={dropHandler(id)}
+                  onDragOver={(e) => e.preventDefault()}
+                  className="mb-3"
+                >
+                  Upload or Drag your files here
+                </Alert>
               )}
             </Col>
           </Row>
