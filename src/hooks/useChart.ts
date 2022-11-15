@@ -1,4 +1,3 @@
-import { stringify } from 'querystring';
 import {
   ChangeEvent,
   DragEvent,
@@ -20,11 +19,10 @@ const useChart = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const nodeTypes = useMemo(() => getCustomNodeTypes, []);
 
   let id = 0;
-  const getId = useCallback(() => `id_${id++}`, [id]);
 
   const onConnect = useCallback(
     (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
@@ -45,26 +43,22 @@ const useChart = () => {
       const dragData = JSON.parse(
         event.dataTransfer.getData(FLOW_DATA_TRANSFER_NAME)
       );
-
-      console.log({ dragData });
-
       const { label, type } = dragData;
 
-      console.log({ type });
-      console.log(typeof type);
-
-      // check if the dropped element is valid
-      if (typeof type === 'undefined' || !type) {
-        console.log('hit here');
+      if (
+        typeof type === 'undefined' ||
+        !type ||
+        !reactFlowBounds?.left ||
+        !reactFlowBounds?.top
+      )
         return;
-      }
 
       const position = reactFlowInstance.project({
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
       const newNode = {
-        id: getId(),
+        id: `id-${id++}`,
         type,
         position,
         data: { label, formLabel: label },
@@ -72,7 +66,7 @@ const useChart = () => {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [getId, reactFlowInstance, setNodes]
+    [id, reactFlowInstance, setNodes]
   );
 
   const handleNodeChange =
@@ -155,7 +149,6 @@ const useChart = () => {
     reactFlowInstance,
     reactFlowWrapper,
     nodeTypes,
-    getId,
     onNodesChange,
     onEdgesChange,
     onDragOver,
